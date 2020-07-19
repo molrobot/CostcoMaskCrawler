@@ -1,3 +1,7 @@
+# 好市多口罩爬蟲
+# python 3.7.6
+# encoding=utf-8
+
 import pytz
 import time
 import random
@@ -22,6 +26,7 @@ class costco:
         # 設定目標商品
         self.url = config.get("product", "url")
         self.title = config.get("product", "title")
+        self.id = self.url.rsplit("/", 1)[1]
 
         # 設定信箱
         self.server = config.get("email", "server")
@@ -54,21 +59,29 @@ class costco:
                     logging.info(result)
             time.sleep(random.random() * 10 + self.next_search_time)
 
+    # 爬取資料，檢查按鈕是否存在
     def search(self):
         header = {
             "user-agent": random.choice(self.USER_AGENT_LIST)
         }
         with requests.get(self.url, headers=header) as res:
             soup = BeautifulSoup(res.text, "lxml")
-            if (soup.find(id="add-to-cart-button-224368") != None or soup.find(id="addToCartButton") != None):
+            '''
+            商品頁面存在且有庫存，可以找到 addToCartButton
+            商品頁面不存在，但分類列表存在商品且有庫存，可以找到 add-to-cart-button-xxxxxx
+            xxxxxx為商品編號
+            '''
+            if (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None):
                 return True
         return False
 
+    # 自訂時間範圍檢查
     def checktime(self):
-        if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 10:
+        if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 30:
             return True
         return False
 
+    # 寄信通知
     def send_email(self):
         text = self.nowtime.strftime("%Y-%m-%d %H:%M:%S") + "\n" + self.url
 
