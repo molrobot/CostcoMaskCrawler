@@ -68,7 +68,7 @@ class costco:
             soup = BeautifulSoup(res.text, "lxml")
             '''
             商品頁面存在且有庫存，可以找到 addToCartButton
-            商品頁面不存在自動跳回分類列表，但分類列表商品且有庫存，可以找到 add-to-cart-button-xxxxxx
+            商品頁面不存在自動跳回分類列表，但分類列表存在商品且有庫存，可以找到 add-to-cart-button-xxxxxx
             xxxxxx為商品編號
             '''
             if (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None):
