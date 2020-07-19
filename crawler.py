@@ -35,7 +35,7 @@ class costco:
         self.next_search_time = config.getint("time", "next_search_time")
 
         # 設定 user-agent
-        self.USER_AGENT_LIST = json.loadsconfig.get("agent", "user_agent"))
+        self.USER_AGENT_LIST = json.loads(config.get("agent", "user_agent"))
 
         # 開始執行
         self.start()
@@ -47,11 +47,11 @@ class costco:
                 result = self.search()
                 if result:
                     logging.info(self.url)
-                    if self.send_email(self.nowtime):
-                        time.sleep(600)
+                    if self.send_email():
+                        time.sleep(self.next_send_time)
                 else:
                     logging.info(result)
-            time.sleep(random.random() * 30 + 30)
+            time.sleep(self.next_search_time)
 
     def search(self):
         try:
@@ -72,8 +72,8 @@ class costco:
             return True
         return False
 
-    def send_email(self, nowtime):
-        text = nowtime.strftime("%Y-%m-%d %H:%M:%S") + "\n" + self.url
+    def send_email(self):
+        text = self.nowtime.strftime("%Y-%m-%d %H:%M:%S") + "\n" + self.url
 
         message = MIMEText(text, "plain", "utf-8")
         message["From"] = Header("Python Crawler", "utf-8")
