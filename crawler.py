@@ -35,7 +35,7 @@ class costco:
         self.next_search_time = config.getint("time", "next_search_time")
 
         # 設定 user-agent
-        self.USER_AGENT_LIST = config.get("agent", "user_agent")
+        self.USER_AGENT_LIST = json.loadsconfig.get("agent", "user_agent"))
 
         # 開始執行
         self.start()
