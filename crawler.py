@@ -22,6 +22,7 @@ class costco:
         # 設定目標商品
         self.url = config.get("product", "url")
         self.title = config.get("product", "title")
+
         # 設定信箱
         self.server = config.get("email", "server")
         self.port = config.getint("email", "port")
@@ -51,20 +52,16 @@ class costco:
                         time.sleep(self.next_send_time)
                 else:
                     logging.info(result)
-            time.sleep(self.next_search_time)
+            time.sleep(random.random() * 10 + self.next_search_time)
 
     def search(self):
-        try:
-            header = {
-                "user-agent": random.choice(self.USER_AGENT_LIST)
-            }
-            with requests.get(self.url, headers=header) as res:
-                soup = BeautifulSoup(res.text, "lxml")
-                if (soup.find(id="add-to-cart-button-224368") != None or soup.find(id="addToCartButton") != None):
-                    return True
-        except OSError as e:
-            print(e)
-
+        header = {
+            "user-agent": random.choice(self.USER_AGENT_LIST)
+        }
+        with requests.get(self.url, headers=header) as res:
+            soup = BeautifulSoup(res.text, "lxml")
+            if (soup.find(id="add-to-cart-button-224368") != None or soup.find(id="addToCartButton") != None):
+                return True
         return False
 
     def checktime(self):
@@ -89,13 +86,11 @@ class costco:
             if status == {}:
                 print("傳送成功!")
                 return True
-
         print("傳送失敗!")
         return False
 
 def main():
     csd = costco()
-
 
 if __name__ == "__main__":
     main()
