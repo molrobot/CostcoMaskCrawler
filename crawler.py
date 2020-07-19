@@ -68,7 +68,7 @@ class costco:
         return False
 
     def checktime(self):
-        if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 30:
+        if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 10:
             return True
         return False
 
