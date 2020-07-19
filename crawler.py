@@ -82,7 +82,6 @@ class costco:
             smtp.starttls()
             smtp.login(self.user, self.password)
             status = smtp.sendmail(self.from_addr, self.to_addr, message.as_string())
-            smtp.quit()
             if status == {}:
                 print("傳送成功!")
                 return True
