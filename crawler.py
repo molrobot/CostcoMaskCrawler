@@ -1,4 +1,4 @@
-# 好市多口罩爬蟲
+# 好市多線上購物爬蟲
 # python 3.7.6
 # encoding=utf-8
 
@@ -26,7 +26,12 @@ class costco:
         # 設定目標商品
         self.url = config.get("product", "url")
         self.title = config.get("product", "title")
-        self.id = self.url.rsplit("/", 1)[1]
+
+        # 檢查網址為商品頁面或分類列表
+        if self.url.rsplit("/", 2)[1] == "p":
+            self.id = self.url.rsplit("/", 1)[1]
+        else:
+            self.id = None
 
         # 設定信箱
         self.server = config.get("email", "server")
@@ -71,8 +76,10 @@ class costco:
             商品頁面不存在自動跳回分類列表，但分類列表存在商品且有庫存，可以找到 add-to-cart-button-xxxxxx
             xxxxxx為商品編號
             '''
-            if (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None):
-                return True
+            if self.id != None:
+                return (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None)
+            else:
+                return (self.title in res.text)
         return False
 
     # 自訂時間範圍檢查
