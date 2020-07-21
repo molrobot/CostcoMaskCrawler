@@ -62,7 +62,7 @@ class costco:
                         time.sleep(self.next_send_time)
                 else:
                     logging.info(result)
-            time.sleep(random.random() * 10 + self.next_search_time)
+            time.sleep(random.randint(5, self.next_search_time))
 
     # 爬取資料，檢查按鈕是否存在
     def search(self):
