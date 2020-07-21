@@ -90,12 +90,12 @@ class costco:
 
     # 寄信通知
     def send_email(self):
-        text = self.nowtime.strftime("%Y-%m-%d %H:%M:%S") + self.title + "\n" + self.url
+        text = self.nowtime.strftime("%Y-%m-%d %H:%M:%S ") + self.title + "\n" + self.url
 
         message = MIMEText(text, "plain", "utf-8")
-        message["From"] = Header("Python Crawler", "utf-8")
+        message["From"] = Header("好市多爬蟲", "utf-8")
         message["To"] = Header(self.to_addr, "utf-8")
-        message["Subject"] = Header("好市多" + self.title + "上架", "utf-8")
+        message["Subject"] = Header("商品上架通知", "utf-8")
 
         with smtplib.SMTP(self.server, self.port) as smtp:
             smtp.ehlo()
