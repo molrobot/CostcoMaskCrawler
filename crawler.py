@@ -48,7 +48,6 @@ class costco:
         # 設定 user-agent
         self.USER_AGENT_LIST = json.loads(config.get("agent", "user_agent"))
 
-        # 開始執行
         self.start()
 
     def start(self):
@@ -75,6 +74,8 @@ class costco:
             商品頁面存在且有庫存，可以找到 addToCartButton
             商品頁面不存在自動跳回分類列表，但分類列表存在商品且有庫存，可以找到 add-to-cart-button-xxxxxx
             xxxxxx為商品編號
+
+            若不知道商品網址或編號，只有商品分類網址跟商品名稱，就直接搜尋名稱，但無法判斷是否有庫存
             '''
             if self.id != None:
                 return (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None)
@@ -103,10 +104,14 @@ class costco:
             smtp.login(self.user, self.password)
             status = smtp.sendmail(self.from_addr, self.to_addr, message.as_string())
             if status == {}:
-                print("傳送成功!")
+                logging.info("郵件傳送成功")
                 return True
-        print("傳送失敗!")
+        logging.info("郵件傳送失敗")
         return False
+
+    # 傳line通知
+    def send_line(self):
+        pass
 
 def main():
     csd = costco()
