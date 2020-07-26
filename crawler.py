@@ -28,6 +28,7 @@ class costco:
         self.title = config.get("product", "title")
 
         # 檢查網址為商品頁面或分類列表
+        # 切割網址取得商品編號
         if self.url.rsplit("/", 2)[1] == "p":
             self.id = self.url.rsplit("/", 1)[1]
         else:
@@ -71,11 +72,10 @@ class costco:
         with requests.get(self.url, headers=header) as res:
             soup = BeautifulSoup(res.text, "lxml")
             '''
-            商品頁面存在且有庫存，可以找到 addToCartButton
-            商品頁面不存在自動跳回分類列表，但分類列表存在商品且有庫存，可以找到 add-to-cart-button-xxxxxx
-            xxxxxx為商品編號
-
-            若不知道商品網址或編號，只有商品分類網址跟商品名稱，就直接搜尋名稱，但無法判斷是否有庫存
+            商品頁面存在，可以找到 addToCartButton
+            商品頁面不存在則會自動跳回分類列表，若分類列表存在商品，可能可以找到 add-to-cart-button-xxxxxx
+            出現"加入購物車"按鈕不代表一定有庫存
+            若不知道商品網址或編號，只有商品分類網址跟商品名稱，就直接搜尋名稱，但無法檢查按鈕
             '''
             if self.id != None:
                 return (soup.find(id=("add-to-cart-button-" + self.id)) != None or soup.find(id="addToCartButton") != None)
