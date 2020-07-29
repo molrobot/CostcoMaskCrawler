@@ -83,6 +83,12 @@ class costco:
                 return (self.title in res.text)
         return False
 
+    def add_to_cart(self):
+        pass
+
+    def checkout(self):
+        pass
+
     # 自訂時間範圍檢查
     def checktime(self):
         if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 10:
