@@ -2,6 +2,7 @@
 # python 3.7.6
 # encoding=utf-8
 
+import os
 import pytz
 import time
 import random
@@ -10,7 +11,6 @@ import datetime
 import requests
 import smtplib
 import json
-import configparser
 from email.mime.text import MIMEText
 from email.header import Header
 from bs4 import BeautifulSoup
@@ -20,36 +20,39 @@ class costco:
         logging.basicConfig(level=logging.INFO, format="%(asctime)s, %(levelname)s: %(message)s", \
                             datefmt="%Y-%m-%d %H:%M:%S")
 
-        config = configparser.RawConfigParser()
-        config.read("crawler.config", encoding="utf-8")
+        configFileName = "config.json"
+        if not os.path.isfile(configFileName):
+            print("could not find", configFileName)
+            exit()
 
-        # 設定目標商品
-        self.url = config.get("product", "url")
-        self.title = config.get("product", "title")
+        with open(configFileName, "r", encoding="utf-8") as json_file:
+            config = json.load(json_file)
 
-        # 檢查網址為商品頁面或分類列表
-        # 切割網址取得商品編號
-        if self.url.rsplit("/", 2)[1] == "p":
-            self.id = self.url.rsplit("/", 1)[1]
-        else:
-            self.id = None
+            # 設定目標商品
+            self.url = config["product"]["url"]
+            self.title = config["product"]["title"]
 
-        # 設定信箱
-        self.server = config.get("email", "server")
-        self.port = config.getint("email", "port")
-        self.user = config.get("email", "user")
-        self.password = config.get("email", "password")
-        self.from_addr = config.get("email", "from_addr")
-        self.to_addr = config.get("email", "to_addr")
+            # 檢查網址為商品頁面或分類列表
+            # 切割網址取得商品編號
+            if self.url.rsplit("/", 2)[1] == "p":
+                self.id = self.url.rsplit("/", 1)[1]
+            else:
+                self.id = None
 
-        # 設定等待時間
-        self.next_send_time = config.getint("time", "next_send_time")
-        self.next_search_time = config.getint("time", "next_search_time")
+            # 設定信箱
+            self.server = config["email"]["server"]
+            self.port = config["email"]["port"]
+            self.user = config["email"]["user"]
+            self.password = config["email"]["password"]
+            self.from_addr = config["email"]["from_addr"]
+            self.to_addr = config["email"]["to_addr"]
 
-        # 設定 user-agent
-        self.USER_AGENT_LIST = json.loads(config.get("agent", "user_agent"))
+            # 設定等待時間
+            self.next_send_time = config["time"]["next_send_time"]
+            self.next_search_time = config["time"]["next_search_time"]
 
-        self.start()
+            # 設定 user-agent
+            self.USER_AGENT_LIST = config["agent"]["user-agent"]
 
     def start(self):
         while True:
@@ -121,6 +124,7 @@ class costco:
 
 def main():
     csd = costco()
+    csd.start()
 
 if __name__ == "__main__":
     main()
