@@ -14,6 +14,8 @@ import json
 from email.mime.text import MIMEText
 from email.header import Header
 from bs4 import BeautifulSoup
+from linebot import LineBotApi
+from linebot.models import TextSendMessage
 
 class costco:
     def __init__(self):
@@ -32,12 +34,10 @@ class costco:
             self.url = config["product"]["url"]
             self.title = config["product"]["title"]
 
-            # 檢查網址為商品頁面或分類列表
-            # 切割網址取得商品編號
-            if self.url.rsplit("/", 2)[1] == "p":
-                self.id = self.url.rsplit("/", 1)[1]
-            else:
-                self.id = None
+            # 設定 Line API
+            self.line_bot_token = config["line"]["line_bot_token"]
+            # self.line_bot_secret = config["line"]["line_bot_secret"]
+            self.line_user_id = config["line"]["user-id"]
 
             # 設定信箱
             self.server = config["email"]["server"]
@@ -53,6 +53,15 @@ class costco:
 
             # 設定 user-agent
             self.USER_AGENT_LIST = config["agent"]["user-agent"]
+
+        # 檢查網址為商品頁面或分類列表
+        # 切割網址取得商品編號
+        if self.url.rsplit("/", 2)[1] == "p":
+            self.id = self.url.rsplit("/", 1)[1]
+        else:
+            self.id = None
+
+        self.line_bot_api = LineBotApi(self.line_bot_token)
 
     def start(self):
         while True:
@@ -111,8 +120,8 @@ class costco:
             smtp.ehlo()
             smtp.starttls()
             smtp.login(self.user, self.password)
-            status = smtp.sendmail(self.from_addr, self.to_addr, message.as_string())
-            if status == {}:
+            ret = smtp.sendmail(self.from_addr, self.to_addr, message.as_string())
+            if ret == {}:
                 logging.info("郵件傳送成功")
                 return True
         logging.info("郵件傳送失敗")
@@ -120,7 +129,7 @@ class costco:
 
     # 傳line通知
     def send_line(self):
-        pass
+        self.line_bot_api.push_message(self.line_user_id, TextSendMessage(text='Hello World!@'))
 
 def main():
     csd = costco()
