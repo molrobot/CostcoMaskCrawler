@@ -3,6 +3,11 @@
         "url": "https://www.costco.com.tw/p/224368",
         "title": "中衛醫療彩色口罩"
     },
+    "line": {
+        "line_bot_token": "",
+        "line_bot_secret": "",
+        "user_id": ""
+    },
     "email": {
         "server": "smtp.gmail.com",
         "port": "587",
