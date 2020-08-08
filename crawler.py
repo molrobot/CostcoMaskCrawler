@@ -16,6 +16,7 @@ from email.header import Header
 from bs4 import BeautifulSoup
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
+from linebot.exceptions import LineBotApiError
 
 class costco:
     def __init__(self):
@@ -35,8 +36,8 @@ class costco:
             self.title = config["product"]["title"]
 
             # 設定 Line API
-            self.line_bot_token = config["line"]["line_bot_token"]
-            # self.line_bot_secret = config["line"]["line_bot_secret"]
+            self.line_bot_token = config["line"]["line_bot_channel_access_token"]
+            # self.line_bot_secret = config["line"]["line_bot_channel_secret"]
             self.line_user_id = config["line"]["user-id"]
 
             # 設定信箱
@@ -129,7 +130,13 @@ class costco:
 
     # 傳line通知
     def send_line(self):
-        self.line_bot_api.push_message(self.line_user_id, TextSendMessage(text='Hello World!@'))
+        try:
+            self.line_bot_api.push_message(self.line_user_id, TextSendMessage(text="Hello World!"))
+        except LineBotApiError as e:
+            print(e.status_code)
+            print(e.request_id)
+            print(e.error.message)
+            print(e.error.details)
 
 def main():
     csd = costco()
