@@ -4,9 +4,9 @@
         "title": "中衛醫療彩色口罩"
     },
     "line": {
-        "line_bot_token": "",
-        "line_bot_secret": "",
-        "user_id": ""
+        "line_bot_channel_access_token": "",
+        "line_bot_channel_secret": "",
+        "user-id": ""
     },
     "email": {
         "server": "smtp.gmail.com",
