@@ -49,7 +49,6 @@ class costco:
             self.to_addr = config["email"]["to_addr"]
 
             # 設定等待時間
-            self.next_send_time = config["time"]["next_send_time"]
             self.next_search_time = config["time"]["next_search_time"]
             self.continuous = config["time"]["continuous"]
 

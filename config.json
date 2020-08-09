@@ -17,7 +17,7 @@
         "to_addr": "receiver@gmail.com"
     },
     "time": {
-        "next_search_time": 30,
+        "next_search_time": 10,
         "continuous": true
     },
     "agent": {
