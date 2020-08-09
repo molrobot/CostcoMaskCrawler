@@ -38,7 +38,6 @@ class costco:
             # 設定 Line API
             self.line_bot_token = config["line"]["line_bot_channel_access_token"]
             # self.line_bot_secret = config["line"]["line_bot_channel_secret"]
-            self.line_user_id = config["line"]["user-id"]
 
             # 設定信箱
             self.server = config["email"]["server"]
