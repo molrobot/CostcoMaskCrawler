@@ -133,7 +133,7 @@ class costco:
     # 傳line通知
     def send_line(self):
         try:
-            self.line_bot_api.push_message(self.line_user_id, TextSendMessage(text="Hello World!"))
+            self.line_bot_api.broadcast(TextSendMessage(text=text))
         except LineBotApiError as e:
             print(e.status_code)
             print(e.request_id)

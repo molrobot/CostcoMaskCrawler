@@ -5,8 +5,7 @@
     },
     "line": {
         "line_bot_channel_access_token": "",
-        "line_bot_channel_secret": "",
-        "user-id": ""
+        "line_bot_channel_secret": ""
     },
     "email": {
         "server": "smtp.gmail.com",
