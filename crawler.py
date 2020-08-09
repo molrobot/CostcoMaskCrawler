@@ -51,6 +51,7 @@ class costco:
             # 設定等待時間
             self.next_send_time = config["time"]["next_send_time"]
             self.next_search_time = config["time"]["next_search_time"]
+            self.continuous = config["time"]["continuous"]
 
             # 設定 user-agent
             self.USER_AGENT_LIST = config["agent"]["user-agent"]
@@ -103,8 +104,10 @@ class costco:
         pass
 
     # 自訂時間範圍檢查
-    def checktime(self):
-        if 7 <= self.nowtime.hour <= 22 and self.nowtime.minute % 30 < 10:
+    def check_time(self):
+        if self.continuous:
+            return True
+        elif 8 <= self.nowtime.hour <= 22:
             return True
         return False
 
