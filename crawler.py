@@ -80,7 +80,7 @@ class costco:
     def start(self):
         while True:
             self.nowtime = datetime.datetime.now(pytz.timezone("Asia/Taipei"))
-            if self.checktime():
+            if self.check_time():
                 result = self.search()
                 if result:
                     logging.info(self.url)
