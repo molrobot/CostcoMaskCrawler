@@ -63,6 +63,20 @@ class costco:
 
         self.line_bot_api = LineBotApi(self.line_bot_token)
 
+        self.message = [
+            "商品下架通知",
+            "商品上架通知(無庫存)",
+            "商品上架通知(有庫存)"
+        ]
+
+        '''
+        商品狀態
+        0 :未上架(分類清單中未出現)
+        1 :有上架但無庫存(分類清單中有出現或商品網頁存在，但加入購物車按鈕不存在)
+        2 :有上架且(可能)有庫存(分類清單中有出現或商品網頁存在，且加入購物車按鈕存在)
+        '''
+        self.product_status = 0
+
     def start(self):
         while True:
             self.nowtime = datetime.datetime.now(pytz.timezone("Asia/Taipei"))
