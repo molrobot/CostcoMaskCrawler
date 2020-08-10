@@ -145,6 +145,9 @@ class costco:
 
     # 傳line通知
     def send_line(self):
+        text = self.message[self.product_status] + "\n" + \
+               self.nowtime.strftime("%Y-%m-%d %H:%M:%S") + "\n" + self.title + "\n" + self.url
+        
         try:
             self.line_bot_api.broadcast(TextSendMessage(text=text))
         except LineBotApiError as e:
