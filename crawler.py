@@ -127,16 +127,16 @@ class costco:
     def send_email(self):
         text = self.nowtime.strftime("%Y-%m-%d %H:%M:%S ") + self.title + "\n" + self.url
 
-        message = MIMEText(text, "plain", "utf-8")
-        message["From"] = Header("好市多爬蟲", "utf-8")
-        message["To"] = Header(self.to_addr, "utf-8")
-        message["Subject"] = Header("商品上架通知", "utf-8")
+        msg = MIMEText(text, "plain", "utf-8")
+        msg["From"] = Header("好市多爬蟲", "utf-8")
+        msg["To"] = Header(self.to_addr, "utf-8")
+        msg["Subject"] = Header(self.message[self.product_status], "utf-8")
 
         with smtplib.SMTP(self.server, self.port) as smtp:
             smtp.ehlo()
             smtp.starttls()
             smtp.login(self.user, self.password)
-            ret = smtp.sendmail(self.from_addr, self.to_addr, message.as_string())
+            ret = smtp.sendmail(self.from_addr, self.to_addr, msg.as_string())
             if ret == {}:
                 logging.info("郵件傳送成功")
                 return True
