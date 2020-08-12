@@ -151,10 +151,7 @@ class costco:
         try:
             self.line_bot_api.broadcast(TextSendMessage(text=text))
         except LineBotApiError as e:
-            print(e.status_code)
-            print(e.request_id)
-            print(e.error.message)
-            print(e.error.details)
+            print(e)
 
 def main():
     csd = costco()
