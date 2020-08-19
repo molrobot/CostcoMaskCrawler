@@ -11,6 +11,7 @@ import datetime
 import requests
 import smtplib
 import json
+from datetime import datetime
 from email.mime.text import MIMEText
 from email.header import Header
 from bs4 import BeautifulSoup
@@ -79,7 +80,7 @@ class costco:
 
     def start(self):
         while True:
-            self.nowtime = datetime.datetime.now(pytz.timezone("Asia/Taipei"))
+            self.nowtime = datetime.now(pytz.timezone("Asia/Taipei"))
             if self.check_time():
                 result = self.search()
                 if result:
