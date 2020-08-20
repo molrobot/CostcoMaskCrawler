@@ -11,7 +11,35 @@ pip install -r requirements.txt
 ```
 ## config.json
 
+### LineBot 通知
+LineBot的教學資源已有許多人分享，請自行尋找教學並建置。
+
+建置完成後將 LineBot 的 **Channel access token** 填入 config.json 中的對應欄位。
+
+### E-mail 通知
+將Gmail帳號密碼填入config.json中的對應欄位，並設定收件者信箱。
+
+如果要使用其他smtp伺服器請自行更改其他相關設定。
+
+### 搜尋間隔時間
+預設搜尋間隔時間為10~20秒，若有需要減少系統資源或流量消耗，可自行更改搜尋間隔時間，或將 **continuous** 設為 false，夜間暫停搜尋。
+
 ## product.json
+依照範例格式填入目標商品資料，輸入網址時可以順便縮短網址，方便瀏覽
+
+https://www.costco.com.tw/p/ + 商品編號
+
+```json
+{
+    "url": "https://www.costco.com.tw/p/224368",
+    "title": "中衛醫療彩色口罩"
+}
+```
+
+## 執行
+```
+python crawler.py
+```
 
 ## 自動加入購物車
 加入購物車需要帶入使用者的好市多帳號的cookies資料，暫不新增此功能。
