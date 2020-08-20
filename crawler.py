@@ -114,7 +114,7 @@ class costco:
             若不知道商品網址或編號，只有商品分類網址跟商品名稱，就直接搜尋名稱，但無法檢查按鈕
             '''
             if item["id"] != None and (soup.find(id="addToCartButton") != None or \
-                                    soup.find(id=("add-to-cart-button-" + item["id"])) != None):
+                                       soup.find(id=("add-to-cart-button-" + item["id"])) != None):
                 return 2
             elif item["title"] in res.text:
                 return 1
